@@ -83,7 +83,7 @@ class DetailOrderPage extends GetView<DetailOrderController> {
             }, widgetText('Xác nhận giao hàng')),
             widgetElevatedButton(() {
               controller.confirmEndOrder();
-            }, widgetText('Báo cáo sự cố')),
+            }, widgetText('Kết thúc giao hàng')),
           ],
         )
       ],

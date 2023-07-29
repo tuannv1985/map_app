@@ -28,14 +28,16 @@ class DetailOrderController extends GetxController {
 
   void confirmOrder() {
     Get.toNamed('/mapPage');
-    controllerGoogle.timerAutoRun();
+    // controllerGoogle.timerAutoRun();
     // controllerGoogle.drawMarker();
     // controllerGoogle.upDateMyLocation();
+    controllerGoogle.getUpdateLatLong();
   }
 
   void confirmEndOrder() {
     // Get.toNamed('/mapPage');
-    controllerGoogle.timerRun.cancel();
+    // controllerGoogle.timerRun.cancel();
+    controllerGoogle.positionStream.cancel();
   }
 
   RxString itemTruct(String itemOrder) {

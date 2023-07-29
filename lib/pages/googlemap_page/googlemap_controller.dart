@@ -18,6 +18,7 @@ class GoogleMapPageController extends GetxController {
   double lat = 0.0;
   double long = 0.0;
   late Timer timerRun;
+  late StreamSubscription<Position> positionStream;
   Completer<GoogleMapController> controllerGM =
       Completer<GoogleMapController>();
   TextEditingController controllerAutocom = TextEditingController();
@@ -111,7 +112,6 @@ class GoogleMapPageController extends GetxController {
   }
 
   Future latLngCurentG() async {
-    Timer.periodic(const Duration(seconds: 1), (timer) async {
       bool serviceEnabled;
       LocationPermission permission;
       serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -136,12 +136,22 @@ class GoogleMapPageController extends GetxController {
       long = locationCurent.longitude;
 
       latLngCurent = LatLng(locationCurent.latitude, locationCurent.longitude);
-    });
   }
 
   void timerAutoRun() {
     timerRun = Timer.periodic(const Duration(seconds: 3), (timer) {
       print('Lat: $lat ; Long: $long');
+    });
+  }
+
+  void getUpdateLatLong() {
+    print('update abc');
+    const LocationSettings locationSettings =
+        LocationSettings(accuracy: LocationAccuracy.best, distanceFilter: 0, timeLimit: Duration(seconds: 5));
+    positionStream =
+        Geolocator.getPositionStream(locationSettings: locationSettings)
+            .listen((Position? position) {
+      print('lat: ${position!.latitude} and long: ${position.longitude}'); 
     });
   }
 }
