@@ -24,7 +24,7 @@ class GoogleMapPageController extends GetxController {
   late StreamSubscription<Position> positionXml;  
   final _myBox = Hive.box<HiveLocation>('Location');
   final location = HiveLocation();
-  List temps =[];
+  final List<HiveLocation> temps =[];
   Completer<GoogleMapController> controllerGM =
       Completer<GoogleMapController>();
   TextEditingController controllerAutocom = TextEditingController();
