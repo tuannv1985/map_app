@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -59,10 +58,13 @@ class LoginPage extends GetView<LoginController> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Checkbox(
-                            value: true,
-                            activeColor: Colors.blue,
-                            onChanged: (bool? value) {}),
+                        Obx(() => Checkbox(
+                              value: controller.checkbox.value,
+                              activeColor: Colors.blue,
+                              onChanged: (bool? value) {
+                                controller.checkbox.value = value!;
+                              }),
+                        ),
                         const SizedBox(width: 5),
                         const Text(
                           "Ghi nhớ đăng nhập",
