@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -10,15 +9,22 @@ import 'package:hive/hive.dart';
 import 'package:map_app/hives/hive_location.dart';
 
 class GoogleMapPageController extends GetxController {
-
-  late StreamSubscription<Position> positionDatabase;
+  @override
+  void onInit() {
+    super.onInit();
+    loadMarkers();
+    initGoogleMap();
+  }
 
   LatLng latLngCurent = const LatLng(0.0, 0.0);
   double lat = 0.0;
   double long = 0.0;
   late Timer timerRun;
-  late StreamSubscription<Position> positionXml;
-  late Box<HiveLocation> boxLocation;
+  late StreamSubscription<Position> positionDatabase;
+  late StreamSubscription<Position> positionXml;  
+  final _myBox = Hive.box<HiveLocation>('Location');
+  final location = HiveLocation();
+  final List<HiveLocation> temps =[];
   Completer<GoogleMapController> controllerGM =
       Completer<GoogleMapController>();
   TextEditingController controllerAutocom = TextEditingController();
@@ -33,7 +39,6 @@ class GoogleMapPageController extends GetxController {
     '43F-56789',
     '74F-56789',
   ];
-  late LocationSettings locationSettings;
 
   Future<Uint8List> getImages(String path, int width) async {
     ByteData data = await rootBundle.load(path);
@@ -43,45 +48,6 @@ class GoogleMapPageController extends GetxController {
     return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
         .buffer
         .asUint8List();
-  }
-
-  @override
-  Future<void> onInit() async {
-    super.onInit();
-    if (defaultTargetPlatform == TargetPlatform.android) {
-      locationSettings = AndroidSettings(
-          accuracy: LocationAccuracy.high,
-          distanceFilter: 0,
-          forceLocationManager: true,
-          intervalDuration: const Duration(milliseconds: 30),
-          //(Optional) Set foreground notification config to keep the app alive
-          //when going to the background
-          foregroundNotificationConfig: const ForegroundNotificationConfig(
-            notificationText:
-            "Example app will continue to receive your location even when you aren't using it",
-            notificationTitle: "Running in Background",
-            enableWakeLock: true,
-          )
-      );
-    } else if (defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.macOS) {
-      locationSettings = AppleSettings(
-        accuracy: LocationAccuracy.high,
-        activityType: ActivityType.fitness,
-        distanceFilter: 0,
-        pauseLocationUpdatesAutomatically: true,
-        // Only set to true if our app will be started up in the background.
-        showBackgroundLocationIndicator: false,
-      );
-    } else {
-      locationSettings = const LocationSettings(
-        accuracy: LocationAccuracy.high,
-        distanceFilter: 1,
-      );
-    }
-    loadMarkers();
-    initGoogleMap();
-    boxLocation = await Hive.openBox<HiveLocation>('Location');
-    getUpdateDatabase();
   }
 
   List<Marker> markers = <Marker>[].obs;
@@ -172,27 +138,32 @@ class GoogleMapPageController extends GetxController {
   }
 
   void timerAutoRun() {
-    timerRun = Timer.periodic(const Duration(seconds: 30), (timer) {
-      List<HiveLocation> listLocations = boxLocation.values.toList();
+    timerRun = Timer.periodic(const Duration(seconds: 3), (timer) { 
+      List<HiveLocation> listLocations = _myBox.values.toList();     
       print("listLocation length: ${listLocations.length}");
-      print("size : (${boxLocation.values.length})");
+      print("temp length: ${temps.length}");
     });
   }
 
-  getUpdateDatabase() async {
-    positionDatabase = Geolocator.getPositionStream(locationSettings: locationSettings)
+  Future<void> getUpdateDatabase() async {
+    location.stt = 0;
+    const LocationSettings locationSettings = LocationSettings(
+        accuracy: LocationAccuracy.best,
+        distanceFilter: 0,);
+    positionDatabase =
+        Geolocator.getPositionStream(locationSettings: locationSettings)
             .listen((Position? position) {
       lat = position!.latitude;
       long = position.longitude;
       latLngCurent = LatLng(position.latitude, position.longitude);
       print('lat2: ${position.latitude} and long2: ${position.longitude}');
       drawMarker();
-      int size = boxLocation.values.length + 1;
-      HiveLocation item = HiveLocation(stt: size, cargoOrder: "0", lat: lat, long: long, user: "aaaa");
-      boxLocation.add(item);
-      List<HiveLocation> listLocations = boxLocation.values.toList();
-      print("listLocation length: ${listLocations.length}");
-      print("size : (${boxLocation.values.length})");
+      location.stt++;      
+      location.lat = lat;
+      location.long = long;
+      _myBox.put(location.stt, location);
+      temps.add(location);
+      print('location: $_myBox');      
     });
   }
 

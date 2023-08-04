@@ -17,7 +17,7 @@ Future<void> main() async {
   Hive.registerAdapter(HiveLocationAdapter());
   Hive.registerAdapter(HiveLoginAdapter());
   await Hive.initFlutter();
-  await Hive.openBox<HiveLocation>('Location');
+  // await Hive.openBox<HiveLocation>('Location');
   await Hive.openBox<HiveLogin>('Login');
   runApp(const MyApp());
 }
