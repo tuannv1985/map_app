@@ -31,7 +31,7 @@ class DetailOrderController extends GetxController {
     // controllerGoogle.timerAutoRun();
     // controllerGoogle.drawMarker();
     // controllerGoogle.upDateMyLocation();
-    // controllerGoogle.getUpdateDatabase();
+    controllerGoogle.getUpdateDatabase();
     // controllerGoogle.getUpdateXml();
   }
 

@@ -81,7 +81,6 @@ class GoogleMapPageController extends GetxController {
     loadMarkers();
     initGoogleMap();
     boxLocation = await Hive.openBox<HiveLocation>('Location');
-    getUpdateDatabase();
   }
 
   List<Marker> markers = <Marker>[].obs;
@@ -179,7 +178,7 @@ class GoogleMapPageController extends GetxController {
     });
   }
 
-  getUpdateDatabase() async {
+  getUpdateDatabase() {
     positionDatabase = Geolocator.getPositionStream(locationSettings: locationSettings)
             .listen((Position? position) {
       lat = position!.latitude;
@@ -192,7 +191,6 @@ class GoogleMapPageController extends GetxController {
       boxLocation.add(item);
       List<HiveLocation> listLocations = boxLocation.values.toList();
       print("listLocation length: ${listLocations.length}");
-      print("size : (${boxLocation.values.length})");
     });
   }
 

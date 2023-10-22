@@ -280,7 +280,7 @@ class HomePage extends GetView<HomeController> {
     return TableRow(children: [
       TableCell(
         verticalAlignment: TableCellVerticalAlignment.fill,
-        child: Container(
+        child: SizedBox(
           height: 30,
           child: Center(
             child: Text(
@@ -292,7 +292,7 @@ class HomePage extends GetView<HomeController> {
       ),
       TableCell(
         verticalAlignment: TableCellVerticalAlignment.fill,
-        child: Container(
+        child: SizedBox(
           height: 30,
           child: Center(
             child: Text(
@@ -304,7 +304,7 @@ class HomePage extends GetView<HomeController> {
       ),
       TableCell(
         verticalAlignment: TableCellVerticalAlignment.fill,
-        child: Container(
+        child: SizedBox(
           height: 30,
           child: Center(
             child: Text(
@@ -316,7 +316,7 @@ class HomePage extends GetView<HomeController> {
       ),
       TableCell(
         verticalAlignment: TableCellVerticalAlignment.fill,
-        child: Container(
+        child: SizedBox(
           height: 30,
           child: Center(
             child: Text(
@@ -326,11 +326,11 @@ class HomePage extends GetView<HomeController> {
           ),
         ),
       ),
-      TableCell(
+      const TableCell(
         verticalAlignment: TableCellVerticalAlignment.bottom,
-        child: Container(
+        child: SizedBox(
           height: 30,
-          child: const Center(
+          child: Center(
             child: Text(
               "",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),

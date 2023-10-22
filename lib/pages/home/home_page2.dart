@@ -9,7 +9,6 @@ class HomePage2 extends StatefulWidget {
 
 class _HomePage2State extends State<HomePage2> {
   @override
-  String? itemSelect = '';
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
@@ -22,7 +21,7 @@ class _HomePage2State extends State<HomePage2> {
                 showDialog<String>(
                   context: context,
                   builder: (BuildContext context) => AlertDialog(
-                    content: Container(
+                    content: SizedBox(
                       height: 150,
                       child: Column(
                         children: [

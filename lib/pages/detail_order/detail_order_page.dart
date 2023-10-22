@@ -244,7 +244,7 @@ class DetailOrderPage extends GetView<DetailOrderController> {
     return TableRow(children: [
       TableCell(
         verticalAlignment: TableCellVerticalAlignment.fill,
-        child: Container(
+        child: SizedBox(
           height: 30,
           child: Center(
             child: Text(
@@ -256,9 +256,9 @@ class DetailOrderPage extends GetView<DetailOrderController> {
       ),
       TableCell(
         verticalAlignment: TableCellVerticalAlignment.fill,
-        child: Container(
+        child: SizedBox(
           height: 30,
-          child: Container(
+          child: SizedBox(
             height: 30,
             child: Center(
               child: Checkbox(
@@ -286,7 +286,7 @@ class DetailOrderPage extends GetView<DetailOrderController> {
       ),
       TableCell(
         verticalAlignment: TableCellVerticalAlignment.fill,
-        child: Container(
+        child: SizedBox(
           height: 30,
           child: Center(
             child: Text(
@@ -308,14 +308,14 @@ class DetailOrderPage extends GetView<DetailOrderController> {
           ),
         ),
       ),
-      TableCell(
+      const TableCell(
         verticalAlignment: TableCellVerticalAlignment.bottom,
-        child: Container(
+        child: SizedBox(
           height: 30,
           child: Center(
             child: Text(
               "",
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
             ),
           ),
         ),
